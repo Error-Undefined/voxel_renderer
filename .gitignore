@@ -1,0 +1,12 @@
+#Basic gitignore
+.vscode
+*.d
+*.out
+*.o
+
+#Generated files
+main
+*.log
+
+#macos
+.DS_store
