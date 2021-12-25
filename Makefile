@@ -9,7 +9,7 @@ DEPFLAGS = -MT $@ -MMD -MP -MF $*.d
 CFLAGS =  -Og -Wall -Wextra
 CFLAGS += -g
 #CFLAGS += $(DEPFLAGS)
-LDFLAGS = -lm -lglfw
+LDFLAGS = -lm -lglfw -ldl
 LDFLAGS += -g
 
 # Targets
