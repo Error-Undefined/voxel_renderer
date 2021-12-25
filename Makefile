@@ -6,10 +6,10 @@ CC  = $(CXX)
 DEPFLAGS = -MT $@ -MMD -MP -MF $*.d
 
 # Define preprocessor, compiler, and linker flags.
-CFLAGS =  -Og -Wall -Wextra -pedantic-errors 
+CFLAGS =  -Og -Wall -Wextra
 CFLAGS += -g
 #CFLAGS += $(DEPFLAGS)
-LDFLAGS = -lm
+LDFLAGS = -lm -lglfw
 LDFLAGS += -g
 
 # Targets
@@ -17,7 +17,8 @@ PROGS = main
 all: $(PROGS)
 
 BIN_NAME = main
-TARGET_O_FILES = ./src/main.o ./src/renderer/program_window.o
+GLAD_FILE = ./libs/glad/glad.o
+TARGET_O_FILES = $(GLAD_FILE) ./src/main.o ./src/renderer/program_window.o
 
 # Targets rely on implicit rules for compiling and linking
 main: $(TARGET_O_FILES)
@@ -37,6 +38,7 @@ depclean:
 fullclean:
 	rm -f *.o *.d $(PROGS)
 	rm -f ./src/*.o ./src/*.d
+	rm -f $(TARGET_O_FILES)
 
 # Include the *.d files
 SRC = $(wildcard *.c)

@@ -2,6 +2,6 @@
 #define PROGRAM_WINDOW_H
 
 
-void init_window();
+int init_window();
 
 #endif
