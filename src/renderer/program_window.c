@@ -21,13 +21,13 @@ int init_window()
   
   if(!window)
   {
-    return -1;
+    return -2;
   }
   glfwMakeContextCurrent(window);
 
   if(!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress))
   {
-    return -1;
+    return -3;
   }
   glViewport(0,0, width, height);
 
@@ -41,6 +41,7 @@ int init_window()
     glfwSwapBuffers(window);
   }
   
+  glfwTerminate();
   return 0;
 }
 
