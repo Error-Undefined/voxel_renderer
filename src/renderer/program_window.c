@@ -5,11 +5,8 @@
 
 #include "program_window.h"
 
-int init_window()
+int init_window(s_program* p)
 {
-  int width = 640;
-  int height = 480;
-
   printf("Hello from the other fiiiiile\n");
   // Init glfw
   if (!glfwInit())
@@ -17,7 +14,7 @@ int init_window()
     return -1;
   }
 
-  GLFWwindow* window = glfwCreateWindow(640, 480, "Test title", NULL, NULL);
+  GLFWwindow* window = glfwCreateWindow(p->width, p->height, "Test title", NULL, NULL);
   
   if(!window)
   {
@@ -29,19 +26,31 @@ int init_window()
   {
     return -3;
   }
-  glViewport(0,0, width, height);
+  glViewport(0,0, p->width, p->height);
+  
+  p->window = window;
+  load_image(p->im_path, &p->im);
 
-  while(!glfwWindowShouldClose(window))
+  return 0;
+}
+
+int game_loop(s_program* p)
+{
+  while(!glfwWindowShouldClose(p->window))
   {
     glfwPollEvents();
 
     glClearColor(0.2f,0.6f,0.2f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    glfwSwapBuffers(window);
+    glfwSwapBuffers(p->window);
   }
-  
-  glfwTerminate();
+
   return 0;
 }
 
+void terminate_program(s_program* p)
+{
+  glfwTerminate();
+  p->window = NULL;
+}
