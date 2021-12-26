@@ -8,6 +8,7 @@
 int load_image(const char* path, s_image* im)
 {
     int img_channels;
+    stbi_set_flip_vertically_on_load(0);
     im->image_data = (s_color*) stbi_load(path, &im->size.x, &im->size.y, &img_channels, 3);
     if(im->image_data == NULL)
     {
@@ -19,6 +20,7 @@ int load_image(const char* path, s_image* im)
 int load_height(const char* path, s_height* h)
 {
     int img_channels;
+    stbi_set_flip_vertically_on_load(0);
     h->height = (unsigned char*) stbi_load(path, &h->size.x, &h->size.y, &img_channels, 0);
     if(h->height == NULL)
     {

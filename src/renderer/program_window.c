@@ -7,31 +7,19 @@
 
 int init_window(s_program* p)
 {
-  printf("Hello from the other fiiiiile\n");
-  // Init glfw
-  if (!glfwInit())
-  {
-    return -1;
-  }
 
-  GLFWwindow* window = glfwCreateWindow(p->width, p->height, "Test title", NULL, NULL);
-  
-  if(!window)
-  {
-    return -2;
-  }
-  glfwMakeContextCurrent(window);
-
-  if(!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress))
-  {
-    return -3;
-  }
-  glViewport(0,0, p->width, p->height);
-  
-  p->window = window;
-  // NOTE: Colors are loaded as B, R, G (?)
   load_image(p->im_path, &p->im);
   load_height(p->height_path, &p->h_map);
+  p->g.image = p->im;
+
+  int res = create_graphics(&p->g, p->width, p->height);
+
+  p->window = p->g.window;
+  
+  if(res != 0)
+  {
+    fprintf(stderr, "Threw error %d\n", res);
+  }
 
   return 0;
 }
@@ -40,10 +28,8 @@ int game_loop(s_program* p)
 {
   while(!glfwWindowShouldClose(p->window))
   {
+    render_graphics(&p->g);
     glfwPollEvents();
-
-    glClearColor(0.2f,0.6f,0.2f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
 
     glfwSwapBuffers(p->window);
   }

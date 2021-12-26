@@ -13,6 +13,12 @@ struct point_i
 };
 typedef struct point_i s_point_i;
 
+struct point_f
+{
+    float x, y;
+};
+typedef struct point_f s_point_f;
+
 struct image
 {
     s_color* image_data;
