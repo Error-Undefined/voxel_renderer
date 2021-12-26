@@ -76,7 +76,7 @@ int create_graphics(s_graphics* g, int w, int h)
         1, 2, 3  //second
     };
 
-    create_texture(g, w, h);
+    create_texture(g);
 
     g->shader = create_shader_program("./src/shaders/default.vs", "./src/shaders/default.fs");
     glUseProgram(g->shader);
