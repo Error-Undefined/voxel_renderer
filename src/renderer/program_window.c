@@ -29,7 +29,9 @@ int init_window(s_program* p)
   glViewport(0,0, p->width, p->height);
   
   p->window = window;
+  // NOTE: Colors are loaded as B, R, G (?)
   load_image(p->im_path, &p->im);
+  load_height(p->height_path, &p->h_map);
 
   return 0;
 }
@@ -51,6 +53,19 @@ int game_loop(s_program* p)
 
 void terminate_program(s_program* p)
 {
+  /*
+  FILE* fp;
+  fp = fopen("load.ppm", "w+");
+
+  fputs("P3\n", fp);
+  fprintf(fp, "%d %d\n", p->im.size.x, p->im.size.y);
+  for (int i = 0; i < p->im.size.x * p->im.size.y; i++)
+  {
+    fprintf(fp,"%d %d %d\n", p->im.image_data[i].B, p->im.image_data[i].R, p->im.image_data[i].G);
+  }
+  fclose(fp);
+  */
+
   glfwTerminate();
   p->window = NULL;
 }

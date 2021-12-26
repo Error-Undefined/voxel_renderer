@@ -9,8 +9,9 @@ struct s_program
 {
   GLFWwindow* window;
   int width, height;
-  const char* im_path;
-  image im;
+  const char *im_path, *height_path;
+  s_image im;
+  s_height h_map;
 };
 typedef struct s_program s_program;
 
