@@ -24,14 +24,20 @@ int init_window(s_program* p)
   return 0;
 }
 
+static void framebuffer_size_callback(GLFWwindow *window, int w, int h)
+{
+  glViewport(0,0,w,h);
+}
+
 int game_loop(s_program* p)
 {
+  glfwSetFramebufferSizeCallback(p->window, framebuffer_size_callback);
+
   while(!glfwWindowShouldClose(p->window))
   {
+    glfwSwapBuffers(p->window);
     render_graphics(&p->g);
     glfwPollEvents();
-
-    glfwSwapBuffers(p->window);
   }
 
   return 0;

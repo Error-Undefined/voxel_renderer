@@ -1,6 +1,8 @@
 #include "../../../libs/glad/glad.h"
 #include <GLFW/glfw3.h>
 
+#include <stdio.h>
+
 #include "graphics.h"
 
 #include "../../shaders/shader.h"
@@ -11,11 +13,15 @@ static void create_texture(s_graphics* g)
     glBindTexture(GL_TEXTURE_2D, g->texture_id);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 3);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, g->image.size.y, g->image.size.x, 0, GL_BGR, GL_UNSIGNED_BYTE, g->image.image_data);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, g->image.size.x, g->image.size.y, 0, GL_BGR, GL_UNSIGNED_BYTE, g->image.image_data);
     glGenerateMipmap(GL_TEXTURE_2D);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 }
 
 int create_graphics(s_graphics* g, int w, int h)
@@ -34,10 +40,11 @@ int create_graphics(s_graphics* g, int w, int h)
     glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
     glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
     glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
-    glfwWindowHint(GLFW_DOUBLEBUFFER, GL_TRUE);
+    // glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+    glfwWindowHint(GLFW_DOUBLEBUFFER, GL_FALSE);
   
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
   
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
   
@@ -55,15 +62,18 @@ int create_graphics(s_graphics* g, int w, int h)
     {
       return -3;
     }
-    glViewport(0,0, w, h);
+    glViewport(0, 0, w, h);
   
-    double dX = (w/h)/((float)g->mode->width/(float)g->mode->height);
-    double dY = 1.0f;
+    // double dX = ((float)g->mode->width/(float)g->mode->height);
+    double dX = 1.0;
+    double dY = 1.0;
+
+    printf("%f %f\n", dX,dY);
   
     //Set up all the vertex info
     //Two triangles that make up a square
     GLfloat vertices[] = {
-        //pos       // coords   
+        //pos                 // coords   
         dX * 1.0f, dY * 1.0f, 0.0f, 1.0f, 0.0f, //top, right
         dX * 1.0f, dY *-1.0f, 0.0f, 1.0f, 1.0f, //bottom, right
         dX *-1.0f, dY *-1.0f, 0.0f, 0.0f, 1.0f, //bottom, left
@@ -109,11 +119,14 @@ int create_graphics(s_graphics* g, int w, int h)
 
 void render_graphics(s_graphics* g)
 {
+
+
     glBindTexture(GL_TEXTURE_2D, g->texture_id);
-    glTexSubImage2D(GL_TEXTURE_2D, 0, 0 ,0 ,g->image.size.x, g->image.size.y, GL_RGB, GL_UNSIGNED_BYTE, g->image.image_data);
+    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0 ,g->image.size.x, g->image.size.y, GL_RGB, GL_UNSIGNED_BYTE, g->image.image_data);
 
     glBindVertexArray(g->vao);
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);    
 
     glFlush();
 }
+
