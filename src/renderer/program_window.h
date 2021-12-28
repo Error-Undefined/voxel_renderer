@@ -19,6 +19,8 @@ struct s_program
   s_image im;
   s_height h_map;
   s_camera camera;
+
+  s_image rendered_image;
 };
 typedef struct s_program s_program;
 
