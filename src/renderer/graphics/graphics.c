@@ -47,6 +47,7 @@ int create_graphics(s_graphics* g, int w, int h)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
   
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
   
     GLFWwindow* window = glfwCreateWindow(w, h, "Test title", NULL, NULL);
     
