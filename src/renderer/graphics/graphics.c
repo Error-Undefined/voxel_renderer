@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h>
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "graphics.h"
 
@@ -40,7 +41,7 @@ int create_graphics(s_graphics* g, int w, int h)
     glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
     glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
     glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
-    // glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
     glfwWindowHint(GLFW_DOUBLEBUFFER, GL_FALSE);
   
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -68,8 +69,6 @@ int create_graphics(s_graphics* g, int w, int h)
     // double dX = ((float)g->mode->width/(float)g->mode->height);
     double dX = 1.0;
     double dY = 1.0;
-
-    printf("%f %f\n", dX,dY);
   
     //Set up all the vertex info
     //Two triangles that make up a square
